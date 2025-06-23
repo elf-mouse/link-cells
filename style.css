@@ -1,0 +1,442 @@
+:root {
+    --md-sys-color-primary: #6750A4;
+    --md-sys-color-on-primary: #FFFFFF;
+    --md-sys-color-primary-container: #EADDFF;
+    --md-sys-color-on-primary-container: #21005D;
+    --md-sys-color-secondary: #625B71;
+    --md-sys-color-on-secondary: #FFFFFF;
+    --md-sys-color-secondary-container: #E8DEF8;
+    --md-sys-color-on-secondary-container: #1D192B;
+    --md-sys-color-tertiary: #7D5260;
+    --md-sys-color-on-tertiary: #FFFFFF;
+    --md-sys-color-tertiary-container: #FFD8E4;
+    --md-sys-color-on-tertiary-container: #31111D;
+    --md-sys-color-error: #BA1A1A;
+    --md-sys-color-on-error: #FFFFFF;
+    --md-sys-color-error-container: #FFDAD6;
+    --md-sys-color-on-error-container: #410002;
+    --md-sys-color-background: #FFFBFE;
+    --md-sys-color-on-background: #1C1B1F;
+    --md-sys-color-surface: #FFFBFE;
+    --md-sys-color-on-surface: #1C1B1F;
+    --md-sys-color-surface-variant: #E7E0EC;
+    --md-sys-color-on-surface-variant: #49454F;
+    --md-sys-color-outline: #79747E;
+    --md-sys-color-inverse-on-surface: #F4EFF4;
+    --md-sys-color-inverse-surface: #313033;
+    --md-sys-color-inverse-primary: #D0BCFF;
+    --md-sys-color-shadow: #000000;
+    --md-sys-color-surface-tint: #6750A4;
+    --md-sys-color-outline-variant: #CAC4D0;
+    --md-sys-color-scrim: #000000;
+
+    /* Elevation */
+    --md-sys-elevation-level1: 0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
+    --md-sys-elevation-level2: 0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
+    --md-sys-elevation-level3: 0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+    --md-sys-elevation-level4: 0px 6px 10px 4px rgba(0, 0, 0, 0.15), 0px 2px 3px 0px rgba(0, 0, 0, 0.3);
+    --md-sys-elevation-level5: 0px 8px 12px 6px rgba(0, 0, 0, 0.15), 0px 4px 4px 0px rgba(0, 0, 0, 0.3);
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--md-sys-color-background);
+    color: var(--md-sys-color-on-background);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.top-nav {
+    background-color: var(--md-sys-color-surface-tint);
+    color: var(--md-sys-color-on-primary);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    box-shadow: var(--md-sys-elevation-level2);
+    z-index: 1000;
+}
+
+.top-nav .logo {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.content-wrapper {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.sidebar {
+    width: 280px;
+    background-color: var(--md-sys-color-surface);
+    border-right: 1px solid var(--md-sys-color-outline-variant);
+    padding: 16px;
+    box-shadow: var(--md-sys-elevation-level1);
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar nav li a {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    margin-bottom: 4px;
+    border-radius: 20px;
+    color: var(--md-sys-color-on-surface);
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.sidebar nav li a:hover {
+    background-color: var(--md-sys-color-surface-variant);
+}
+
+.sidebar nav li a.active {
+    background-color: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-on-primary-container);
+}
+
+.sidebar nav ul ul {
+    padding-left: 20px;
+}
+
+.main-content {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.content-header h2 {
+    font-size: 28px;
+    color: var(--md-sys-color-on-background);
+    margin: 0;
+}
+
+.md3-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 20px;
+    background-color: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.2s;
+    box-shadow: var(--md-sys-elevation-level1);
+}
+
+.md3-button:hover {
+    background-color: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-on-primary-container);
+    box-shadow: var(--md-sys-elevation-level2);
+}
+
+.md3-button .material-icons {
+    margin-right: 8px;
+}
+
+/* Grid View */
+.grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.website-card {
+    background-color: var(--md-sys-color-surface);
+    border-radius: 12px;
+    box-shadow: var(--md-sys-elevation-level1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.website-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--md-sys-elevation-level2);
+}
+
+.website-card-header {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid var(--md-sys-color-outline-variant);
+}
+
+.website-card-header .logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin-right: 16px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.website-card-header h3 {
+    font-size: 18px;
+    margin: 0;
+    color: var(--md-sys-color-on-surface);
+    flex-grow: 1;
+}
+
+.website-card-body {
+    padding: 16px;
+    flex-grow: 1;
+}
+
+.website-card-body p {
+    font-size: 14px;
+    color: var(--md-sys-color-on-surface-variant);
+    line-height: 1.5;
+    margin: 0 0 8px 0;
+}
+
+.website-card-footer {
+    padding: 16px;
+    border-top: 1px solid var(--md-sys-color-outline-variant);
+    font-size: 12px;
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+/* Timeline View */
+.timeline-view {
+    display: flex;
+    position: relative;
+    padding-bottom: 50px; /* Space for the timeline line and dots */
+    overflow-x: auto; /* For horizontal scrolling on PC */
+}
+
+.timeline-view::before {
+    content: '';
+    position: absolute;
+    bottom: 25px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--md-sys-color-outline);
+    z-index: 1;
+}
+
+.timeline-item {
+    flex: 0 0 auto;
+    width: 250px; /* Fixed width for each timeline item */
+    margin: 0 40px; /* Space between items */
+    padding-bottom: 60px; /* Space for date and dot below card */
+    position: relative;
+    text-align: center;
+}
+
+.timeline-dot {
+    width: 12px;
+    height: 12px;
+    background-color: var(--md-sys-color-primary);
+    border-radius: 50%;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    border: 2px solid var(--md-sys-color-background);
+}
+
+.timeline-date {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: var(--md-sys-color-on-surface-variant);
+    white-space: nowrap;
+    z-index: 2;
+}
+
+.timeline-card {
+    background-color: var(--md-sys-color-surface);
+    border-radius: 12px;
+    box-shadow: var(--md-sys-elevation-level1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    transition: transform 0.2s;
+    cursor: pointer;
+    margin-bottom: 20px; /* Space above the dot */
+}
+
+.timeline-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--md-sys-elevation-level2);
+}
+
+.timeline-card .logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: contain;
+    margin-bottom: 8px;
+}
+
+.timeline-card h3 {
+    font-size: 16px;
+    margin: 0 0 4px 0;
+    color: var(--md-sys-color-on-surface);
+    text-align: center;
+    word-break: break-word;
+}
+
+.timeline-card .timeline-url {
+    font-size: 12px;
+    color: var(--md-sys-color-primary);
+    text-decoration: none;
+    word-break: break-all;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .content-wrapper {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--md-sys-color-outline-variant);
+        padding: 12px;
+        box-shadow: none;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .sidebar nav ul {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .sidebar nav li {
+        flex-shrink: 0;
+        margin-right: 8px;
+    }
+
+    .sidebar nav li a {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    .sidebar nav ul ul {
+        display: none; /* Hide sub-categories on mobile for simpler navigation */
+    }
+
+    .main-content {
+        padding: 16px;
+    }
+
+    .content-header {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 16px;
+    }
+
+    .content-header h2 {
+        font-size: 24px;
+        margin-bottom: 12px;
+    }
+
+    .md3-button {
+        width: 100%;
+    }
+
+    /* Timeline vertical on mobile */
+    .timeline-view {
+        flex-direction: column;
+        overflow-x: visible;
+        padding-left: 40px; /* Space for vertical line and dots */
+        padding-bottom: 0;
+    }
+
+    .timeline-view::before {
+        width: 2px;
+        height: 100%;
+        top: 0;
+        left: 20px;
+        bottom: auto;
+        right: auto;
+    }
+
+    .timeline-item {
+        width: auto;
+        margin: 20px 0;
+        padding-left: 40px;
+        padding-bottom: 0;
+        text-align: left;
+    }
+
+    .timeline-dot {
+        top: 8px;
+        left: 17px;
+        bottom: auto;
+        transform: none;
+    }
+
+    .timeline-date {
+        top: 0;
+        left: 0;
+        transform: none;
+        font-weight: 500;
+        margin-bottom: 4px;
+    }
+
+    .timeline-card {
+        margin-bottom: 0;
+    }
+
+    .timeline-card .logo {
+        margin-right: 12px;
+        margin-bottom: 0;
+        width: 40px;
+        height: 40px;
+    }
+
+    .timeline-card h3 {
+        font-size: 15px;
+        margin: 0;
+        text-align: left;
+    }
+
+    .timeline-card .timeline-url {
+        font-size: 11px;
+    }
+
+    .timeline-card {
+        flex-direction: row;
+        align-items: center;
+        padding: 12px;
+    }
+
+    .timeline-card-content {
+        flex: 1;
+    }
+}
+
