@@ -4,15 +4,14 @@ import json
 import requests
 
 def parse_awesome_list(markdown_content):
-    lines = markdown_content.split('
-')
-    
+    lines = markdown_content.split('\n')
+
     # Regular expressions for parsing
     main_header_re = re.compile(r'^##\s+(.+)')
     # Level 2 item: e.g., "- [Title](...)"
     list_item_re = re.compile(r'^-+\s+\[([^\]]+)\]\(([^)]+)\)(?:\s+-\s+(.*))?')
     # Level 3 item: e.g., "    - [Title](...)"
-    nested_list_item_re = re.compile(r'^\s{4,}-\s+\[([^\]]+)\]\(([^)]+)\)(?:\s+-\s+(.*))?')
+    nested_list_item_re = re.compile(r'^\t-\s+\[([^\]]+)\]\(([^)]+)\)(?:\s+-\s+(.*))?')
 
     category_structure = []
     temp_category_map = {}
@@ -28,7 +27,7 @@ def parse_awesome_list(markdown_content):
         # Any other "##" header marks the end of the Contents section
         if stripped_line.startswith('## '):
             in_contents_section = False
-        
+
         if in_contents_section:
             match = contents_list_item_re.match(stripped_line)
             if match:
@@ -46,7 +45,7 @@ def parse_awesome_list(markdown_content):
     # Pass 2: Populate Level 2 and Level 3 categories with correct hierarchy.
     current_level1_category = None
     last_level2_category = None
-    
+
     for line in lines:
         # Don't process empty lines
         if not line.strip():
@@ -72,7 +71,7 @@ def parse_awesome_list(markdown_content):
                 title = nested_match.group(1).strip()
                 link = nested_match.group(2).strip()
                 description = nested_match.group(3).strip() if nested_match.group(3) else ""
-                
+
                 # Get the parent (Level 2) title for the prefix.
                 parent_title = last_level2_category['title']
                 prefixed_title = f"{parent_title} - {title}"
@@ -80,9 +79,16 @@ def parse_awesome_list(markdown_content):
                 # Ensure the parent Level 2 item has a 'sub_categories' list.
                 if 'sub_categories' not in last_level2_category:
                     last_level2_category['sub_categories'] = []
-                
+
                 # Append the Level 3 item into its parent's 'sub_categories'.
-                last_level2_category['sub_categories'].append({
+                # last_level2_category['sub_categories'].append({
+                #     "title": prefixed_title,
+                #     "link": link,
+                #     "description": description
+                # })
+
+                # For max 2 levels, we can directly append to the current Level 1 category.
+                current_level1_category['sub_categories'].append({
                     "title": prefixed_title,
                     "link": link,
                     "description": description
@@ -95,7 +101,7 @@ def parse_awesome_list(markdown_content):
                     title = list_match.group(1).strip()
                     link = list_match.group(2).strip()
                     description = list_match.group(3).strip() if list_match.group(3) else ""
-                    
+
                     level2_item = {
                         "title": title,
                         "link": link,
@@ -105,7 +111,7 @@ def parse_awesome_list(markdown_content):
                     current_level1_category['sub_categories'].append(level2_item)
                     # Set this item as the context for any subsequent Level 3 items.
                     last_level2_category = level2_item
-    
+
     return category_structure
 
 if __name__ == "__main__":
@@ -119,11 +125,11 @@ if __name__ == "__main__":
     except requests.exceptions.RequestException as e:
         print(f"Error fetching the remote readme.md: {e}")
         exit(1)
-    
+
     print("Parsing content...")
     parsed_data = parse_awesome_list(content)
     print("Parsing complete.")
-    
+
     output_path = "resources/awesome_contents.json"
     try:
         with open(output_path, "w", encoding="utf-8") as f:

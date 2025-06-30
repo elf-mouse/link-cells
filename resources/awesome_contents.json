@@ -7,10 +7,11 @@
       {
         "title": "Node.js",
         "link": "https://github.com/sindresorhus/awesome-nodejs#readme",
-        "description": "Async non-blocking event-driven JavaScript runtime built on Chrome's V8 JavaScript engine."
+        "description": "Async non-blocking event-driven JavaScript runtime built on Chrome's V8 JavaScript engine.",
+        "sub_categories": []
       },
       {
-        "title": "Cross-Platform",
+        "title": "Node.js - Cross-Platform",
         "link": "https://github.com/bcoe/awesome-cross-platform-nodejs#readme",
         "description": "Writing cross-platform code on Node.js."
       },
@@ -57,40 +58,41 @@
       {
         "title": "Linux",
         "link": "https://github.com/inputsh/awesome-linux#readme",
-        "description": ""
+        "description": "",
+        "sub_categories": []
       },
       {
-        "title": "Containers",
+        "title": "Linux - Containers",
         "link": "https://github.com/Friz-zy/awesome-linux-containers#readme",
         "description": ""
       },
       {
-        "title": "eBPF",
+        "title": "Linux - eBPF",
         "link": "https://github.com/zoidbergwill/awesome-ebpf#readme",
         "description": "Virtual machine that allows you to write more efficient and powerful tracing and monitoring for Linux systems."
       },
       {
-        "title": "Arch-based Projects",
+        "title": "Linux - Arch-based Projects",
         "link": "https://github.com/PandaFoss/Awesome-Arch#readme",
         "description": "Linux distributions and projects based on Arch Linux."
       },
       {
-        "title": "AppImage",
+        "title": "Linux - AppImage",
         "link": "https://github.com/AppImage/awesome-appimage#readme",
         "description": "Package apps in a single file that works on various mainstream Linux distributions."
       },
       {
-        "title": "Screensavers",
+        "title": "Linux - Screensavers",
         "link": "https://github.com/agarrharr/awesome-macos-screensavers#readme",
         "description": ""
       },
       {
-        "title": "Apps",
+        "title": "Linux - Apps",
         "link": "https://github.com/jaywcjlove/awesome-mac#readme",
         "description": ""
       },
       {
-        "title": "Open Source Apps",
+        "title": "Linux - Open Source Apps",
         "link": "https://github.com/serhii-londar/open-source-mac-os-apps#readme",
         "description": ""
       },
@@ -117,10 +119,11 @@
       {
         "title": "Windows",
         "link": "https://github.com/0pandadev/awesome-windows#readme",
-        "description": "Consumer desktop operating system."
+        "description": "Consumer desktop operating system.",
+        "sub_categories": []
       },
       {
-        "title": "PowerToys Run Plugins",
+        "title": "Windows - PowerToys Run Plugins",
         "link": "https://github.com/hlaueriksson/awesome-powertoys-run-plugins#readme",
         "description": "Community plugins for the Windows quick launcher."
       },
@@ -172,15 +175,16 @@
       {
         "title": ".NET",
         "link": "https://github.com/quozd/awesome-dotnet#readme",
-        "description": ""
+        "description": "",
+        "sub_categories": []
       },
       {
-        "title": "Core",
+        "title": ".NET - Core",
         "link": "https://github.com/thangchung/awesome-dotnet-core#readme",
         "description": ""
       },
       {
-        "title": "Roslyn",
+        "title": ".NET - Roslyn",
         "link": "https://github.com/ironcev/awesome-roslyn#readme",
         "description": "Open-source compilers and code analysis APIs for C# and VB.NET languages."
       },
@@ -309,135 +313,138 @@
       {
         "title": "JavaScript",
         "link": "https://github.com/sorrycc/awesome-javascript#readme",
-        "description": ""
+        "description": "",
+        "sub_categories": []
       },
       {
-        "title": "Promises",
+        "title": "JavaScript - Promises",
         "link": "https://github.com/wbinnssmith/awesome-promises#readme",
         "description": ""
       },
       {
-        "title": "Standard Style",
+        "title": "JavaScript - Standard Style",
         "link": "https://github.com/standard/awesome-standard#readme",
         "description": "Style guide and linter."
       },
       {
-        "title": "Must Watch Talks",
+        "title": "JavaScript - Must Watch Talks",
         "link": "https://github.com/bolshchikov/js-must-watch#readme",
         "description": ""
       },
       {
-        "title": "Tips",
+        "title": "JavaScript - Tips",
         "link": "https://github.com/loverajoel/jstips#readme",
         "description": ""
       },
       {
-        "title": "Network Layer",
+        "title": "JavaScript - Network Layer",
         "link": "https://github.com/Kikobeats/awesome-network-js#readme",
         "description": ""
       },
       {
-        "title": "Micro npm Packages",
+        "title": "JavaScript - Micro npm Packages",
         "link": "https://github.com/parro-it/awesome-micro-npm-packages#readme",
         "description": ""
       },
       {
-        "title": "Mad Science npm Packages",
+        "title": "JavaScript - Mad Science npm Packages",
         "link": "https://github.com/feross/awesome-mad-science#readme",
         "description": "Impossible sounding projects that exist."
       },
       {
-        "title": "Maintenance Modules",
+        "title": "JavaScript - Maintenance Modules",
         "link": "https://github.com/maxogden/maintenance-modules#readme",
         "description": "For npm packages."
       },
       {
-        "title": "npm",
+        "title": "JavaScript - npm",
         "link": "https://github.com/sindresorhus/awesome-npm#readme",
         "description": "Package manager."
       },
       {
-        "title": "AVA",
+        "title": "JavaScript - AVA",
         "link": "https://github.com/avajs/awesome-ava#readme",
         "description": "Test runner."
       },
       {
-        "title": "ESLint",
+        "title": "JavaScript - ESLint",
         "link": "https://github.com/dustinspecker/awesome-eslint#readme",
         "description": "Linter."
       },
       {
-        "title": "Functional Programming",
+        "title": "JavaScript - Functional Programming",
         "link": "https://github.com/stoeffel/awesome-fp-js#readme",
         "description": ""
       },
       {
-        "title": "Observables",
+        "title": "JavaScript - Observables",
         "link": "https://github.com/sindresorhus/awesome-observables#readme",
         "description": ""
       },
       {
-        "title": "npm scripts",
+        "title": "JavaScript - npm scripts",
         "link": "https://github.com/RyanZim/awesome-npm-scripts#readme",
         "description": "Task runner."
       },
       {
-        "title": "30 Seconds of Code",
+        "title": "JavaScript - 30 Seconds of Code",
         "link": "https://github.com/30-seconds/30-seconds-of-code#readme",
         "description": "Code snippets you can understand in 30 seconds."
       },
       {
-        "title": "Ponyfills",
+        "title": "JavaScript - Ponyfills",
         "link": "https://github.com/Richienb/awesome-ponyfills#readme",
         "description": "Like polyfills but without overriding native APIs."
       },
       {
         "title": "Swift",
         "link": "https://github.com/matteocrippa/awesome-swift#readme",
-        "description": "Apple's compiled programming language that is secure, modern, programmer-friendly, and fast."
+        "description": "Apple's compiled programming language that is secure, modern, programmer-friendly, and fast.",
+        "sub_categories": []
       },
       {
-        "title": "Education",
+        "title": "Swift - Education",
         "link": "https://github.com/hsavit1/Awesome-Swift-Education#readme",
         "description": ""
       },
       {
-        "title": "Playgrounds",
+        "title": "Swift - Playgrounds",
         "link": "https://github.com/uraimo/Awesome-Swift-Playgrounds#readme",
         "description": ""
       },
       {
         "title": "Python",
         "link": "https://github.com/vinta/awesome-python#readme",
-        "description": "General-purpose programming language designed for readability."
+        "description": "General-purpose programming language designed for readability.",
+        "sub_categories": []
       },
       {
-        "title": "Asyncio",
+        "title": "Python - Asyncio",
         "link": "https://github.com/timofurrer/awesome-asyncio#readme",
         "description": "Asynchronous I/O in Python 3."
       },
       {
-        "title": "Scientific Audio",
+        "title": "Python - Scientific Audio",
         "link": "https://github.com/faroit/awesome-python-scientific-audio#readme",
         "description": "Scientific research in audio/music."
       },
       {
-        "title": "CircuitPython",
+        "title": "Python - CircuitPython",
         "link": "https://github.com/adafruit/awesome-circuitpython#readme",
         "description": "A version of Python for microcontrollers."
       },
       {
-        "title": "Data Science",
+        "title": "Python - Data Science",
         "link": "https://github.com/krzjoa/awesome-python-data-science#readme",
         "description": "Data analysis and machine learning."
       },
       {
-        "title": "Typing",
+        "title": "Python - Typing",
         "link": "https://github.com/typeddjango/awesome-python-typing#readme",
         "description": "Optional static typing for Python."
       },
       {
-        "title": "MicroPython",
+        "title": "Python - MicroPython",
         "link": "https://github.com/mcauser/awesome-micropython#readme",
         "description": "A lean and efficient implementation of Python 3 for microcontrollers."
       },
@@ -469,10 +476,11 @@
       {
         "title": "Scala",
         "link": "https://github.com/lauris/awesome-scala#readme",
-        "description": ""
+        "description": "",
+        "sub_categories": []
       },
       {
-        "title": "Scala Native",
+        "title": "Scala - Scala Native",
         "link": "https://github.com/tindzk/awesome-scala-native#readme",
         "description": "Optimizing ahead-of-time compiler for Scala based on LLVM."
       },
@@ -529,10 +537,11 @@
       {
         "title": "R",
         "link": "https://github.com/qinwf/awesome-R#readme",
-        "description": "Functional programming language and environment for statistical computing and graphics."
+        "description": "Functional programming language and environment for statistical computing and graphics.",
+        "sub_categories": []
       },
       {
-        "title": "Learning",
+        "title": "R - Learning",
         "link": "https://github.com/iamericfletcher/awesome-r-learning-resources#readme",
         "description": ""
       },
@@ -544,10 +553,11 @@
       {
         "title": "Common Lisp",
         "link": "https://github.com/CodyReichert/awesome-cl#readme",
-        "description": "Powerful dynamic multiparadigm language that facilitates iterative and interactive development."
+        "description": "Powerful dynamic multiparadigm language that facilitates iterative and interactive development.",
+        "sub_categories": []
       },
       {
-        "title": "Learning",
+        "title": "Common Lisp - Learning",
         "link": "https://github.com/GustavBertram/awesome-common-lisp-learning#readme",
         "description": ""
       },
@@ -569,10 +579,11 @@
       {
         "title": "Java",
         "link": "https://github.com/akullpp/awesome-java#readme",
-        "description": "Popular secure object-oriented language designed for flexibility to \"write once, run anywhere\"."
+        "description": "Popular secure object-oriented language designed for flexibility to \"write once, run anywhere\".",
+        "sub_categories": []
       },
       {
-        "title": "RxJava",
+        "title": "Java - RxJava",
         "link": "https://github.com/eleventigers/awesome-rxjava#readme",
         "description": ""
       },
@@ -604,10 +615,11 @@
       {
         "title": "PHP",
         "link": "https://github.com/ziadoz/awesome-php#readme",
-        "description": "Server-side scripting language."
+        "description": "Server-side scripting language.",
+        "sub_categories": []
       },
       {
-        "title": "Composer",
+        "title": "PHP - Composer",
         "link": "https://github.com/jakoch/awesome-composer#readme",
         "description": "Package manager."
       },
@@ -731,45 +743,47 @@
       {
         "title": "CSS",
         "link": "https://github.com/awesome-css-group/awesome-css#readme",
-        "description": "Style sheet language that specifies how HTML elements are displayed on screen."
+        "description": "Style sheet language that specifies how HTML elements are displayed on screen.",
+        "sub_categories": []
       },
       {
-        "title": "Critical-Path Tools",
+        "title": "CSS - Critical-Path Tools",
         "link": "https://github.com/addyosmani/critical-path-css-tools#readme",
         "description": ""
       },
       {
-        "title": "Scalability",
+        "title": "CSS - Scalability",
         "link": "https://github.com/davidtheclark/scalable-css-reading-list#readme",
         "description": ""
       },
       {
-        "title": "Must-Watch Talks",
+        "title": "CSS - Must-Watch Talks",
         "link": "https://github.com/AllThingsSmitty/must-watch-css#readme",
         "description": ""
       },
       {
-        "title": "Protips",
+        "title": "CSS - Protips",
         "link": "https://github.com/AllThingsSmitty/css-protips#readme",
         "description": ""
       },
       {
-        "title": "Frameworks",
+        "title": "CSS - Frameworks",
         "link": "https://github.com/troxler/awesome-css-frameworks#readme",
         "description": ""
       },
       {
         "title": "React",
         "link": "https://github.com/enaqx/awesome-react#readme",
-        "description": "JavaScript library for building user interfaces."
+        "description": "JavaScript library for building user interfaces.",
+        "sub_categories": []
       },
       {
-        "title": "Relay",
+        "title": "React - Relay",
         "link": "https://github.com/expede/awesome-relay#readme",
         "description": "Framework for building data-driven React apps."
       },
       {
-        "title": "React Hooks",
+        "title": "React - React Hooks",
         "link": "https://github.com/glauberfc/awesome-react-hooks#readme",
         "description": "Lets you use state and other React features without writing a class."
       },
@@ -881,10 +895,11 @@
       {
         "title": "jQuery",
         "link": "https://github.com/petk/awesome-jquery#readme",
-        "description": "Easy to use JavaScript library for DOM manipulation."
+        "description": "Easy to use JavaScript library for DOM manipulation.",
+        "sub_categories": []
       },
       {
-        "title": "Tips",
+        "title": "jQuery - Tips",
         "link": "https://github.com/AllThingsSmitty/jquery-tips-everyone-should-know#readme",
         "description": ""
       },
@@ -1173,35 +1188,38 @@
       {
         "title": "Symfony",
         "link": "https://github.com/sitepoint-editors/awesome-symfony#readme",
-        "description": "PHP framework."
+        "description": "PHP framework.",
+        "sub_categories": []
       },
       {
-        "title": "Education",
+        "title": "Symfony - Education",
         "link": "https://github.com/pehapkari/awesome-symfony-education#readme",
         "description": ""
       },
       {
         "title": "Laravel",
         "link": "https://github.com/chiraggude/awesome-laravel#readme",
-        "description": "PHP framework."
+        "description": "PHP framework.",
+        "sub_categories": []
       },
       {
-        "title": "Education",
+        "title": "Laravel - Education",
         "link": "https://github.com/fukuball/Awesome-Laravel-Education#readme",
         "description": ""
       },
       {
-        "title": "TALL Stack",
+        "title": "Laravel - TALL Stack",
         "link": "https://github.com/livewire/awesome-tall-stack#readme",
         "description": "Full-stack development solution featuring libraries built by the Laravel community."
       },
       {
         "title": "Rails",
         "link": "https://github.com/gramantin/awesome-rails#readme",
-        "description": "Web app framework for Ruby."
+        "description": "Web app framework for Ruby.",
+        "sub_categories": []
       },
       {
-        "title": "Gems",
+        "title": "Rails - Gems",
         "link": "https://github.com/hothero/awesome-rails-gem#readme",
         "description": "Packages."
       },
@@ -1320,80 +1338,83 @@
       {
         "title": "Data Science",
         "link": "https://github.com/academic/awesome-datascience#readme",
-        "description": ""
+        "description": "",
+        "sub_categories": []
       },
       {
-        "title": "Tutorials",
+        "title": "Data Science - Tutorials",
         "link": "https://github.com/siboehm/awesome-learn-datascience#readme",
         "description": ""
       },
       {
         "title": "Machine Learning",
         "link": "https://github.com/josephmisiti/awesome-machine-learning#readme",
-        "description": ""
+        "description": "",
+        "sub_categories": []
       },
       {
-        "title": "Tutorials",
+        "title": "Machine Learning - Tutorials",
         "link": "https://github.com/ujjwalkarn/Machine-Learning-Tutorials#readme",
         "description": ""
       },
       {
-        "title": "ML with Ruby",
+        "title": "Machine Learning - ML with Ruby",
         "link": "https://github.com/arbox/machine-learning-with-ruby#readme",
         "description": "Learning, implementing, and applying Machine Learning using Ruby."
       },
       {
-        "title": "Core ML Models",
+        "title": "Machine Learning - Core ML Models",
         "link": "https://github.com/likedan/Awesome-CoreML-Models#readme",
         "description": "Models for Apple's machine learning framework."
       },
       {
-        "title": "H2O",
+        "title": "Machine Learning - H2O",
         "link": "https://github.com/h2oai/awesome-h2o#readme",
         "description": "Open source distributed machine learning platform written in Java with APIs in R, Python, and Scala."
       },
       {
-        "title": "Software Engineering for Machine Learning",
+        "title": "Machine Learning - Software Engineering for Machine Learning",
         "link": "https://github.com/SE-ML/awesome-seml#readme",
         "description": "From experiment to production-level machine learning."
       },
       {
-        "title": "AI in Finance",
+        "title": "Machine Learning - AI in Finance",
         "link": "https://github.com/georgezouq/awesome-ai-in-finance#readme",
         "description": "Solving problems in finance with machine learning."
       },
       {
-        "title": "JAX",
+        "title": "Machine Learning - JAX",
         "link": "https://github.com/n2cholas/awesome-jax#readme",
         "description": "Automatic differentiation and XLA compilation brought together for high-performance machine learning research."
       },
       {
-        "title": "XAI",
+        "title": "Machine Learning - XAI",
         "link": "https://github.com/altamiracorp/awesome-xai#readme",
         "description": "Providing insight, explanations, and interpretability to machine learning methods."
       },
       {
         "title": "Speech and Natural Language Processing",
         "link": "https://github.com/edobashira/speech-language-processing#readme",
-        "description": ""
+        "description": "",
+        "sub_categories": []
       },
       {
-        "title": "Spanish",
+        "title": "Speech and Natural Language Processing - Spanish",
         "link": "https://github.com/dav009/awesome-spanish-nlp#readme",
         "description": ""
       },
       {
-        "title": "NLP with Ruby",
+        "title": "Speech and Natural Language Processing - NLP with Ruby",
         "link": "https://github.com/arbox/nlp-with-ruby#readme",
         "description": ""
       },
       {
-        "title": "Question Answering",
+        "title": "Speech and Natural Language Processing - Question Answering",
         "link": "https://github.com/seriousran/awesome-qa#readme",
         "description": "The science of asking and answering in natural language with a machine."
       },
       {
-        "title": "Natural Language Generation",
+        "title": "Speech and Natural Language Processing - Natural Language Generation",
         "link": "https://github.com/accelerated-text/awesome-nlg#readme",
         "description": "Generation of text used in data-to-text, conversational agents, and narrative generation applications."
       },
@@ -1405,10 +1426,11 @@
       {
         "title": "Cryptography",
         "link": "https://github.com/sobolevn/awesome-cryptography#readme",
-        "description": ""
+        "description": "",
+        "sub_categories": []
       },
       {
-        "title": "Papers",
+        "title": "Cryptography - Papers",
         "link": "https://github.com/pFarb/awesome-crypto-papers#readme",
         "description": "Theory basics for using cryptography by non-cryptographers."
       },
@@ -1420,30 +1442,31 @@
       {
         "title": "Deep Learning",
         "link": "https://github.com/ChristosChristofidis/awesome-deep-learning#readme",
-        "description": "Neural networks."
+        "description": "Neural networks.",
+        "sub_categories": []
       },
       {
-        "title": "TensorFlow",
+        "title": "Deep Learning - TensorFlow",
         "link": "https://github.com/jtoy/awesome-tensorflow#readme",
         "description": "Library for machine intelligence."
       },
       {
-        "title": "TensorFlow.js",
+        "title": "Deep Learning - TensorFlow.js",
         "link": "https://github.com/aaronhma/awesome-tensorflow-js#readme",
         "description": "WebGL-accelerated machine learning JavaScript library for training and deploying models."
       },
       {
-        "title": "TensorFlow Lite",
+        "title": "Deep Learning - TensorFlow Lite",
         "link": "https://github.com/margaretmz/awesome-tensorflow-lite#readme",
         "description": "Framework that optimizes TensorFlow models for on-device machine learning."
       },
       {
-        "title": "Papers",
+        "title": "Deep Learning - Papers",
         "link": "https://github.com/terryum/awesome-deep-learning-papers#readme",
         "description": "The most cited deep learning papers."
       },
       {
-        "title": "Education",
+        "title": "Deep Learning - Education",
         "link": "https://github.com/guillaume-chevalier/awesome-deep-learning-resources#readme",
         "description": ""
       },
@@ -1569,10 +1592,11 @@
       {
         "title": "Algorithms",
         "link": "https://github.com/tayllan/awesome-algorithms#readme",
-        "description": ""
+        "description": "",
+        "sub_categories": []
       },
       {
-        "title": "Education",
+        "title": "Algorithms - Education",
         "link": "https://github.com/gaerae/awesome-algorithms-education#readme",
         "description": "Learning and practicing."
       },
@@ -1892,20 +1916,21 @@
       {
         "title": "GitHub",
         "link": "https://github.com/phillipadsmith/awesome-github#readme",
-        "description": "Hosting service for Git repositories."
+        "description": "Hosting service for Git repositories.",
+        "sub_categories": []
       },
       {
-        "title": "Browser Extensions",
+        "title": "GitHub - Browser Extensions",
         "link": "https://github.com/stefanbuck/awesome-browser-extensions-for-github#readme",
         "description": ""
       },
       {
-        "title": "Cheat Sheet",
+        "title": "GitHub - Cheat Sheet",
         "link": "https://github.com/tiimgreen/github-cheat-sheet#readme",
         "description": ""
       },
       {
-        "title": "Pinned Gists",
+        "title": "GitHub - Pinned Gists",
         "link": "https://github.com/matchai/awesome-pinned-gists#readme",
         "description": "Dynamic pinned gists for your GitHub profile."
       },
@@ -2610,10 +2635,11 @@
       {
         "title": "Slack",
         "link": "https://github.com/matiassingers/awesome-slack#readme",
-        "description": "Team collaboration."
+        "description": "Team collaboration.",
+        "sub_categories": []
       },
       {
-        "title": "Communities",
+        "title": "Slack - Communities",
         "link": "https://github.com/filipelinhares/awesome-slack#readme",
         "description": ""
       },
@@ -2947,15 +2973,16 @@
       {
         "title": "JSON",
         "link": "https://github.com/burningtree/awesome-json#readme",
-        "description": "Text based data interchange format."
+        "description": "Text based data interchange format.",
+        "sub_categories": []
       },
       {
-        "title": "GeoJSON",
+        "title": "JSON - GeoJSON",
         "link": "https://github.com/tmcw/awesome-geojson#readme",
         "description": ""
       },
       {
-        "title": "Datasets",
+        "title": "JSON - Datasets",
         "link": "https://github.com/jdorfman/awesome-json-datasets#readme",
         "description": ""
       },
@@ -3057,10 +3084,11 @@
       {
         "title": "AMA",
         "link": "https://github.com/sindresorhus/amas#readme",
-        "description": "Ask Me Anything."
+        "description": "Ask Me Anything.",
+        "sub_categories": []
       },
       {
-        "title": "Answers",
+        "title": "AMA - Answers",
         "link": "https://github.com/stoeffel/awesome-ama-answers#readme",
         "description": ""
       },
@@ -3107,10 +3135,11 @@
       {
         "title": "Unicode",
         "link": "https://github.com/jagracey/Awesome-Unicode#readme",
-        "description": "Unicode standards, quirks, packages and resources."
+        "description": "Unicode standards, quirks, packages and resources.",
+        "sub_categories": []
       },
       {
-        "title": "Code Points",
+        "title": "Unicode - Code Points",
         "link": "https://github.com/Codepoints/awesome-codepoints#readme",
         "description": ""
       },
