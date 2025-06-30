@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Render category tree
+    // Render category tree (only top-level categories)
     async function renderCategories() {
         await fetchAwesomeContent(); // Ensure data is fetched
 
@@ -53,36 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 setActiveCategory(a);
                 currentCategoryTitle = category.title;
+                // When a top-level category is clicked, render its sub_categories
                 renderWebsites(currentCategoryTitle);
             });
             li.appendChild(a);
-
-            if (category.sub_categories && category.sub_categories.length > 0) {
-                const subUl = document.createElement('ul');
-                category.sub_categories.forEach(subCategory => {
-                    // Check if subCategory has its own sub_categories (nested)
-                    // If it has a 'link' and 'description', it's a website/resource
-                    // If it only has 'sub_categories', it's a further nested category
-                    if (subCategory.link || (subCategory.sub_categories && subCategory.sub_categories.length > 0)) {
-                        const subLi = document.createElement('li');
-                        const subA = document.createElement('a');
-                        subA.href = '#';
-                        subA.textContent = subCategory.title;
-                        subA.dataset.categoryTitle = subCategory.title; // Use title as identifier
-                        subA.addEventListener('click', (e) => {
-                            e.preventDefault();
-                            setActiveCategory(subA);
-                            currentCategoryTitle = subCategory.title;
-                            renderWebsites(currentCategoryTitle);
-                        });
-                        subLi.appendChild(subA);
-                        subUl.appendChild(subLi);
-                    }
-                });
-                if (subUl.children.length > 0) { // Only append if there are actual sub-categories to display
-                    li.appendChild(subUl);
-                }
-            }
             ul.appendChild(li);
         });
         categoryTree.innerHTML = '';
@@ -122,15 +96,17 @@ document.addEventListener('DOMContentLoaded', () => {
         let websitesToDisplay = [];
 
         // Search for the selected category/sub-category in the loaded data
+        // Modified to return the immediate sub_categories of the found category
         function findCategoryItems(data, targetTitle) {
             for (const item of data) {
                 if (item.title === targetTitle) {
-                    // This item itself is the category, return its sub_categories as websites
+                    // This item itself is the category, return its sub_categories
                     return item.sub_categories || [];
                 }
+                // If not the target, check its sub_categories recursively
                 if (item.sub_categories && item.sub_categories.length > 0) {
                     const foundInNested = findCategoryItems(item.sub_categories, targetTitle);
-                    if (foundInNested.length > 0 || foundInNested === null) { // null indicates it was found but has no sub-items
+                    if (foundInNested.length > 0 || foundInNested === null) {
                         return foundInNested;
                     }
                 }
@@ -139,13 +115,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         // Find the actual list of items (websites/sub-categories) to display
-        // If an item has a 'link', it's a website. If it has 'sub_categories', it's a nested category.
+        // When a top-level category is selected, its direct sub_categories are displayed.
+        // These sub_categories can be either actual websites (with 'link') or
+        // further nested categories (with 'sub_categories'). We want to display both.
         const foundItems = findCategoryItems(awesomeContentData, categoryTitle);
         
-        // Filter out items that are just categories with no direct link/description but have nested sub_categories
-        // We want to display the direct children as "websites" here.
-        websitesToDisplay = foundItems.filter(item => item.link || (item.sub_categories && item.sub_categories.length > 0));
-
+        // Display all found items, regardless if they have a 'link' or 'sub_categories',
+        // as the user wants to see the second-level categories in a waterfall.
+        websitesToDisplay = foundItems;
 
         // Simulate network delay for fetching, then clear skeletons
         await new Promise(resolve => setTimeout(resolve, 500)); 
@@ -156,13 +133,17 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        if (isGridView) {
+        if (isGridView) { // This will now act as the waterfall view
             websiteContainer.classList.remove('timeline-view');
             websiteContainer.classList.add('grid-view');
-            websitesToDisplay.forEach(website => {
-                websiteContainer.appendChild(createGridCard(website));
+            websitesToDisplay.forEach(item => { // Changed from website to item
+                // Check if the item has a 'link' property. If so, it's a website.
+                // Otherwise, it's a nested category, which we still want to display as a clickable card.
+                websiteContainer.appendChild(createGridCard(item));
             });
         } else {
+            // The timeline view is not explicitly requested for waterfall,
+            // but we'll keep it for now as an alternative view.
             websiteContainer.classList.remove('grid-view');
             websiteContainer.classList.add('timeline-view');
             // Sort by title for timeline view as releaseDate is not available
@@ -194,13 +175,15 @@ document.addEventListener('DOMContentLoaded', () => {
         return card;
     }
 
+    // Modified createGridCard to handle both websites and nested categories
     function createGridCard(item) {
         const card = document.createElement('a');
-        card.href = item.link || '#'; // Use item.link as URL
-        card.target = '_blank';
+        card.href = item.link || '#'; // Use item.link as URL, if it's a website
+        card.target = item.link ? '_blank' : '_self'; // Open in new tab if it's a link, otherwise self
+
         card.className = 'website-card';
-        // Use Google Favicon API for logo if link is available, otherwise a placeholder
-        const logoSrc = item.link ? `https://www.google.com/s2/favicons?domain=${new URL(item.link).hostname}` : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07L9.54 3.54A5 5 0 0 0 3.54 9.54l3 3a5 5 0 0 0 7.07 7.07L14.46 16.46"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.46-1.46A5 5 0 0 0 20.46 14.46l-3-3a5 5 0 0 0-7.07-7.07L9.54 7.54A5 5 0 0 0 3.54 13.54l3 3"></path></svg>';
+        // Use Google Favicon API for logo if link is available, otherwise a placeholder for category
+        const logoSrc = item.link ? `https://www.google.com/s2/favicons?domain=${new URL(item.link).hostname}` : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>'; // Folder icon for categories
         
         card.innerHTML = `
             <div class="website-card-header">
@@ -208,13 +191,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 <h3>${item.title}</h3>
             </div>
             <div class="website-card-body">
-                <p>${item.description || '暂无描述'}</p>
+                <p>${item.description || (item.sub_categories ? `包含 ${item.sub_categories.length} 个子分类或项目` : '暂无描述')}</p>
             </div>
             <div class="website-card-footer">
                 <!-- releaseDate is not available in new data -->
                 <!-- You can add other info here if needed -->
             </div>
         `;
+
+        // If it's a category (no link but has sub_categories), make it clickable to render its sub_categories
+        if (!item.link && item.sub_categories && item.sub_categories.length > 0) {
+            card.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent default link behavior if it's a category
+                currentCategoryTitle = item.title; // Set current category to this sub-category
+                renderWebsites(currentCategoryTitle); // Render its sub-categories
+            });
+        }
+
         return card;
     }
 
@@ -227,14 +220,22 @@ document.addEventListener('DOMContentLoaded', () => {
         itemElement.innerHTML = `
             <div class="timeline-dot"></div>
             <div class="timeline-date">${timelineDate}</div>
-            <a href="${item.link || '#'}" target="_blank" class="timeline-card">
+            <a href="${item.link || '#'}" target="${item.link ? '_blank' : '_self'}" class="timeline-card">
                 <img data-src="${logoSrc}" alt="${item.title} Logo" class="logo lazyload">
                 <div class="timeline-card-content">
                     <h3>${item.title}</h3>
-                    <span class="timeline-url">${item.link ? new URL(item.link).hostname : ''}</span>
+                    <span class="timeline-url">${item.link ? new URL(item.link).hostname : (item.sub_categories ? '子分类' : '')}</span>
                 </div>
             </a>
         `;
+        // If it's a category (no link but has sub_categories), make it clickable to render its sub_categories
+        if (!item.link && item.sub_categories && item.sub_categories.length > 0) {
+            itemElement.querySelector('.timeline-card').addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent default link behavior if it's a category
+                currentCategoryTitle = item.title; // Set current category to this sub-category
+                renderWebsites(currentCategoryTitle); // Render its sub-categories
+            });
+        }
         return itemElement;
     }
 
