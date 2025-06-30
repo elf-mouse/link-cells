@@ -5,14 +5,13 @@ import requests # 导入 requests 库
 
 def parse_awesome_list(markdown_content):
     data = []
-    lines = markdown_content.split('
-')
-    
+    lines = markdown_content.split('\n')
+
     # State variables for parsing
     in_contents_section = False
     current_main_category_title = None
     current_main_category_obj = None
-    
+
     # Regular expressions for parsing
     main_header_re = re.compile(r'^##\s+(.+)')
     list_item_re = re.compile(r'^-+\s+\[([^\]]+)\]\(([^)]+)\)(?:\s+-\s+(.*))?')
@@ -24,7 +23,7 @@ def parse_awesome_list(markdown_content):
         if line == '## Contents':
             in_contents_section = True
             continue
-        
+
         if in_contents_section:
             if line.startswith('## '): # End of Contents section
                 in_contents_section = False
@@ -60,7 +59,7 @@ def parse_awesome_list(markdown_content):
                 title = nested_list_item_match.group(1).strip()
                 link = nested_list_item_match.group(2).strip()
                 description = nested_list_item_match.group(3).strip() if nested_list_item_match.group(3) else ""
-                
+
                 # Add to the last sub_category of the current_main_category_obj
                 if current_main_category_obj['sub_categories']:
                     last_sub_category = current_main_category_obj['sub_categories'][-1]
@@ -75,17 +74,17 @@ def parse_awesome_list(markdown_content):
                 title = list_item_match.group(1).strip()
                 link = list_item_match.group(2).strip()
                 description = list_item_match.group(3).strip() if list_item_match.group(3) else ""
-                
+
                 # Update the main category's link and add this as a sub_category
                 # If the main category itself has a link and description, that will be the first item
                 # For this specific readme, the main categories are just headers, and the first item is the actual content for that category.
                 # Let's adjust the logic: the first item under a main header should populate the link/description of the main category itself.
                 # Subsequent items are sub-categories. This is an edge case in this specific file.
-                
+
                 # Check if the current main category's sub_categories is empty or if it's a new main link for the current main category (unlikely for this specific file, usually first entry defines main)
                 # For awesome lists, the main header doesn't have a link/description itself, but the first item under it *is* the main entry for that category.
                 # So we should always add them as sub_categories.
-                
+
                 # Find the existing main category object by title and add the sub_category to it.
                 # The assumption here is that the main categories are already populated in `data` when `## Contents` was processed,
                 # or when the `## Category` line was encountered.
@@ -117,11 +116,11 @@ def parse_awesome_list(markdown_content):
     # The current parsing logic for `current_main_category_obj` is correct for building the structure.
     # Let's verify the main category links. The links in the 'Contents' section are relative,
     # but the links within each category section are absolute GitHub links.
-    
+
     # We need to correctly associate the top-level category objects in `data` with their actual content.
     # My current logic for `main_header_match` and `current_main_category_obj` appends the main category object correctly.
     # The `sub_categories` for each main category will be populated by `list_item_match` and `nested_list_item_match`.
-    
+
     # One issue: The initial `data.append(current_main_category_obj)` inside `main_header_match` might create duplicate main category entries if
     # the main categories are also listed in the `Contents` section and processed.
     # Let's modify the flow:
@@ -160,12 +159,12 @@ def parse_awesome_list(markdown_content):
                     temp_category_map[title] = category_info
             elif line.startswith('## '): # End of Contents section
                 in_contents_section = False
-    
+
     # Pass 2: Populate sub-categories and descriptions from the actual sections
     current_category = None
     for line in lines:
         line = line.strip()
-        
+
         main_header_match = re.match(r'^##\s+(.+)', line)
         if main_header_match:
             header_title = main_header_match.group(1).strip()
@@ -183,7 +182,7 @@ def parse_awesome_list(markdown_content):
                 title = nested_list_item_match.group(1).strip()
                 link = nested_list_item_match.group(2).strip()
                 description = nested_list_item_match.group(3).strip() if nested_list_item_match.group(3) else ""
-                
+
                 # Add to the last sub_category of the current_category
                 if current_category['sub_categories']:
                     last_sub_category = current_category['sub_categories'][-1]
@@ -198,13 +197,13 @@ def parse_awesome_list(markdown_content):
                 title = list_item_match.group(1).strip()
                 link = list_item_match.group(2).strip()
                 description = list_item_match.group(3).strip() if list_item_match.group(3) else ""
-                
+
                 current_category['sub_categories'].append({
                     "title": title,
                     "link": link,
                     "description": description
                 })
-    
+
     # The initial `category_structure` already has the correct top-level categories and their order.
     # `temp_category_map` modified these objects by reference, so `category_structure` is already updated.
 
@@ -219,9 +218,9 @@ if __name__ == "__main__":
     except requests.exceptions.RequestException as e:
         print(f"Error fetching the remote readme.md: {e}")
         exit(1) # Exit if we can't fetch the content
-    
+
     parsed_data = parse_awesome_list(content)
-    
+
     with open("awesome_contents.json", "w", encoding="utf-8") as f:
         json.dump(parsed_data, f, indent=2, ensure_ascii=False)
 
