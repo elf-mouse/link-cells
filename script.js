@@ -1,34 +1,36 @@
 document.addEventListener("DOMContentLoaded", () => {
   const categoryTree = document.getElementById("category-tree");
   const websiteContainer = document.getElementById("website-container");
-  const viewToggleButton = document.getElementById("view-toggle-button");
-  let currentCategoryName = null; // Changed to name as ID
-  let isGridView = true; // true for grid, false for timeline (now waterfall)
-  let awesomeContentData = []; // To store the fetched awesome_contents.json
+  const menuButton = document.getElementById("menu-button");
+  const sidebar = document.getElementById("sidebar");
+  const scrimOverlay = document.getElementById("scrim-overlay");
+  let currentCategoryName = null;
+  let awesomeContentData = [];
 
-  // Function to fetch the awesome_contents.json
+  // --- Navigation Logic ---
+  const toggleSidebar = () => {
+    sidebar.classList.toggle("is-visible");
+    scrimOverlay.classList.toggle("is-visible");
+    document.body.classList.toggle("no-scroll");
+  };
+
+  menuButton.addEventListener("click", toggleSidebar);
+  scrimOverlay.addEventListener("click", toggleSidebar);
+
   async function fetchAwesomeContent() {
     if (awesomeContentData.length === 0) {
-      console.log("Fetching awesome_contents.json...");
       try {
-        const response = await fetch(
-          "https://awesome-data.hub.so.kg/awesome.json"
-        );
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const response = await fetch("https://awesome-data.hub.so.kg/awesome.json");
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         awesomeContentData = await response.json();
-        console.log("Awesome content fetched:", awesomeContentData);
       } catch (error) {
         console.error("Error fetching awesome_contents.json:", error);
-        // Fallback or error display
-        websiteContainer.innerHTML = "<p>加载数据失败，请检查控制台输出。</p>";
+        websiteContainer.innerHTML = "<p>加载数据失败，请检查网络连接或稍后再试。</p>";
       }
     }
     return awesomeContentData;
   }
 
-  // Intersection Observer for lazy loading images
   const lazyLoadObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -40,23 +42,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Render category tree (only top-level categories)
   async function renderCategories() {
-    await fetchAwesomeContent(); // Ensure data is fetched
-
+    await fetchAwesomeContent();
     const ul = document.createElement("ul");
     awesomeContentData.forEach((category) => {
       const li = document.createElement("li");
       const a = document.createElement("a");
       a.href = "#";
       a.textContent = category.name;
-      a.dataset.categoryName = category.name; // Use name as identifier
+      a.dataset.categoryName = category.name;
       a.addEventListener("click", (e) => {
         e.preventDefault();
         setActiveCategory(a);
         currentCategoryName = category.name;
-        // When a top-level category is clicked, render its sub_categories
         renderWebsites(currentCategoryName);
+        // Close sidebar on mobile after selection
+        if (window.innerWidth <= 1023) {
+          toggleSidebar();
+        }
       });
       li.appendChild(a);
       ul.appendChild(li);
@@ -64,10 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     categoryTree.innerHTML = "";
     categoryTree.appendChild(ul);
 
-    // Set initial active category and load websites
-    const firstCategoryLink = categoryTree.querySelector(
-      "a[data-category-name]"
-    );
+    const firstCategoryLink = categoryTree.querySelector("a[data-category-name]");
     if (firstCategoryLink) {
       setActiveCategory(firstCategoryLink);
       currentCategoryName = firstCategoryLink.dataset.categoryName;
@@ -76,220 +76,122 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function setActiveCategory(linkElement) {
-    document.querySelectorAll("#category-tree a").forEach((link) => {
-      link.classList.remove("active");
-    });
+    document.querySelectorAll("#category-tree a").forEach(link => link.classList.remove("active"));
     linkElement.classList.add("active");
   }
 
-  // Render website cards with skeleton loading and lazy loading
   async function renderWebsites(categoryName) {
     if (!categoryName) {
-      websiteContainer.innerHTML = "<p>请选择一个分类来查看网站。</p>";
+      websiteContainer.innerHTML = "<p>请选择一个分类。</p>";
       return;
     }
 
-    websiteContainer.innerHTML = ""; // Clear previous content
-
-    // Add skeleton cards
-    const numberOfSkeletons = isGridView ? 6 : 3; // More for grid, fewer for timeline
+    websiteContainer.innerHTML = "";
+    const numberOfSkeletons = 9;
     for (let i = 0; i < numberOfSkeletons; i++) {
-      websiteContainer.appendChild(createSkeletonCard(isGridView));
+      websiteContainer.appendChild(createSkeletonCard());
     }
 
-    let websitesToDisplay = [];
-
-    // Search for the selected category/sub-category in the loaded data
-    // Modified to return the immediate sub_categories of the found category
-    function findCategoryItems(data, targetName) {
-      for (const item of data) {
-        if (item.name === targetName) {
-          // This item itself is the category, return its sub_categories
-          return item.sub_categories || [];
+    function findItemsRecursively(items, name) {
+        for (const item of items) {
+            if (item.name === name) {
+                return item.sub_categories || [];
+            }
+            if (item.sub_categories) {
+                const result = findItemsRecursively(item.sub_categories, name);
+                if (result !== null) {
+                    return result;
+                }
+            }
         }
-        // If not the target, check its sub_categories recursively
-        if (item.sub_categories && item.sub_categories.length > 0) {
-          const foundInNested = findCategoryItems(
-            item.sub_categories,
-            targetName
-          );
-          if (foundInNested.length > 0 || foundInNested === null) {
-            return foundInNested;
-          }
-        }
-      }
-      return [];
+        return null;
     }
 
-    // Find the actual list of items (websites/sub-categories) to display
-    // When a top-level category is selected, its direct sub_categories are displayed.
-    // These sub_categories can be either actual websites (with 'link') or
-    // further nested categories (with 'sub_categories'). We want to display both.
-    const foundItems = findCategoryItems(awesomeContentData, categoryName);
+    const itemsToDisplay = findItemsRecursively(awesomeContentData, categoryName);
 
-    // Display all found items, regardless if they have a 'link' or 'sub_categories',
-    // as the user wants to see the second-level categories in a waterfall.
-    websitesToDisplay = foundItems;
+    await new Promise(resolve => setTimeout(resolve, 300));
+    websiteContainer.innerHTML = "";
 
-    // Simulate network delay for fetching, then clear skeletons
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    websiteContainer.innerHTML = ""; // Clear skeletons
-
-    if (websitesToDisplay.length === 0) {
+    if (itemsToDisplay === null || itemsToDisplay.length === 0) {
       websiteContainer.innerHTML = "<p>该分类下暂无内容。</p>";
       return;
     }
 
-    if (isGridView) {
-      // This will now act as the waterfall view
-      websiteContainer.classList.remove("timeline-view");
-      websiteContainer.classList.add("grid-view");
-      websitesToDisplay.forEach((item) => {
-        // Changed from website to item
-        // Check if the item has a 'link' property. If so, it's a website.
-        // Otherwise, it's a nested category, which we still want to display as a clickable card.
-        websiteContainer.appendChild(createGridCard(item));
-      });
-    } else {
-      // The timeline view is not explicitly requested for waterfall,
-      // but we'll keep it for now as an alternative view.
-      websiteContainer.classList.remove("grid-view");
-      websiteContainer.classList.add("timeline-view");
-      // Sort by name for timeline view as releaseDate is not available
-      const sortedWebsites = websitesToDisplay.sort((a, b) =>
-        a.name.localeCompare(b.name)
-      );
-      sortedWebsites.forEach((website) => {
-        websiteContainer.appendChild(createTimelineItem(website));
-      });
-    }
+    websiteContainer.className = "grid-view";
 
-    // Observe images for lazy loading after rendering
-    document.querySelectorAll("img.lazyload").forEach((img) => {
-      lazyLoadObserver.observe(img);
+    itemsToDisplay.forEach(item => {
+      websiteContainer.appendChild(createGridCard(item));
     });
+
+    document.querySelectorAll("img.lazyload").forEach(img => lazyLoadObserver.observe(img));
   }
 
-  function createSkeletonCard(isGridView) {
+  function createSkeletonCard() {
     const card = document.createElement("div");
-    card.className = `skeleton-card ${isGridView ? "" : "timeline-skeleton"}`;
+    card.className = "skeleton-card";
     card.innerHTML = `
-            <div class="skeleton-card-header">
-                <div class="skeleton-circle"></div>
-                <div class="skeleton-name"></div>
-            </div>
-            <div class="skeleton-line long"></div>
-            <div class="skeleton-line medium"></div>
-            <div class="skeleton-line short"></div>
-            <div class="skeleton-footer"></div>
-        `;
+      <div class="skeleton-card-header">
+        <div class="skeleton-circle"></div>
+        <div class="skeleton-title"></div>
+      </div>
+      <div class="skeleton-line long"></div>
+      <div class="skeleton-line medium"></div>
+    `;
     return card;
   }
 
-  // Modified createGridCard to handle both websites and nested categories
   function createGridCard(item) {
-    const card = document.createElement("a");
-    card.href = item.repo || "#"; // Use item.repo as URL, if it's a website
-    card.target = item.repo ? "_blank" : "_self"; // Open in new tab if it's a link, otherwise self
-
+    const card = document.createElement("div");
     card.className = "website-card";
-    // Use Google Favicon API for logo if link is available, otherwise a placeholder for category
+
     const logoSrc = item.repo
-      ? `https://www.google.com/s2/favicons?domain=${
-          new URL(item.repo).hostname
-        }`
-      : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>'; // Folder icon for categories
+      ? `https://www.google.com/s2/favicons?domain=${new URL(item.repo).hostname}`
+      : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>';
 
-    card.innerHTML = `
-            <div class="website-card-header">
-                <img data-src="${logoSrc}" alt="${
-      item.name
-    } Logo" class="logo lazyload">
-                <h3>${item.name}</h3>
-            </div>
-            <div class="website-card-body">
-                <p>${
-                  item.brief ||
-                  (item.sub_categories
-                    ? `包含 ${item.sub_categories.length} 个子分类或项目`
-                    : "暂无描述")
-                }</p>
-            </div>
-            <div class="website-card-footer">
-                <!-- releaseDate is not available in new data -->
-                <!-- You can add other info here if needed -->
-            </div>
-        `;
+    // Conditionally build the card body
+    let cardBodyHTML = '';
+    const description = item.brief || (item.sub_categories ? `包含 ${item.sub_categories.length} 个项目` : null);
+    if (description) {
+        cardBodyHTML = `
+        <div class="website-card-body">
+          <p>${description}</p>
+        </div>`;
+    }
 
-    // If it's a category (no link but has sub_categories), make it clickable to render its sub_categories
-    if (!item.repo && item.sub_categories && item.sub_categories.length > 0) {
-      card.addEventListener("click", (e) => {
-        e.preventDefault(); // Prevent default link behavior if it's a category
-        currentCategoryName = item.name; // Set current category to this sub-category
-        renderWebsites(currentCategoryName); // Render its sub-categories
+    // Card content remains clickable for navigation if it's a sub-category
+    const cardContent = `
+      <div class="website-card-content">
+        <div class="website-card-header">
+          <img data-src="${logoSrc}" alt="${item.name} Logo" class="logo lazyload">
+          <h3>${item.name}</h3>
+        </div>
+        ${cardBodyHTML}
+      </div>
+    `;
+
+    const buttonGroup = `
+      <div class="card-button-group">
+        <a href="${item.repo || '#'}" target="_blank" class="card-button primary">
+          <span class="material-icons">code</span> GitHub
+        </a>
+        <a href="${item.url || '#'}" target="_blank" class="card-button secondary">
+          <span class="material-icons">link</span> Visit
+        </a>
+      </div>
+    `;
+
+    card.innerHTML = cardContent + buttonGroup;
+
+    if (!item.repo && item.sub_categories) {
+      card.querySelector('.website-card-content').addEventListener("click", (e) => {
+        e.preventDefault();
+        currentCategoryName = item.name;
+        renderWebsites(currentCategoryName);
       });
     }
 
     return card;
   }
 
-  function createTimelineItem(item) {
-    const timelineDate = item.releaseDate || "N/A"; // Release date not available, fallback
-    const logoSrc = item.repo
-      ? `https://www.google.com/s2/favicons?domain=${
-          new URL(item.repo).hostname
-        }`
-      : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07L9.54 3.54A5 5 0 0 0 3.54 9.54l3 3a5 5 0 0 0 7.07 7.07L14.46 16.46"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.46-1.46A5 5 0 0 0 20.46 14.46l-3-3a5 5 0 0 0-7.07-7.07L9.54 7.54A5 5 0 0 0 3.54 13.54l3 3"></path></svg>';
-
-    const itemElement = document.createElement("div");
-    itemElement.className = "timeline-item";
-    itemElement.innerHTML = `
-            <div class="timeline-dot"></div>
-            <div class="timeline-date">${timelineDate}</div>
-            <a href="${item.repo || "#"}" target="${
-      item.repo ? "_blank" : "_self"
-    }" class="timeline-card">
-                <img data-src="${logoSrc}" alt="${
-      item.name
-    } Logo" class="logo lazyload">
-                <div class="timeline-card-content">
-                    <h3>${item.name}</h3>
-                    <span class="timeline-url">${
-                      item.repo
-                        ? new URL(item.repo).hostname
-                        : item.sub_categories
-                        ? "子分类"
-                        : ""
-                    }</span>
-                </div>
-            </a>
-        `;
-    // If it's a category (no link but has sub_categories), make it clickable to render its sub_categories
-    if (!item.repo && item.sub_categories && item.sub_categories.length > 0) {
-      itemElement
-        .querySelector(".timeline-card")
-        .addEventListener("click", (e) => {
-          e.preventDefault(); // Prevent default link behavior if it's a category
-          currentCategoryName = item.name; // Set current category to this sub-category
-          renderWebsites(currentCategoryName); // Render its sub-categories
-        });
-    }
-    return itemElement;
-  }
-
-  // Toggle view button logic
-  viewToggleButton.addEventListener("click", () => {
-    isGridView = !isGridView;
-    if (isGridView) {
-      viewToggleButton.innerHTML =
-        '<span class="material-icons">grid_view</span><span class="button-text">切换为时间轴</span>';
-    } else {
-      viewToggleButton.innerHTML =
-        '<span class="material-icons">date_range</span><span class="button-text">切换为栅格</span>';
-    }
-    renderWebsites(currentCategoryName);
-  });
-
-  // Initial load
   renderCategories();
 });
