@@ -1,0 +1,11 @@
+{
+  "name": "link-cells",
+  "version": "0.0.1",
+  "scripts": {
+    "prod": "rm -rf dist && NODE_ENV=production parcel build src/index.html --no-source-maps --dist-dir dist"
+  },
+  "devDependencies": {
+    "parcel": "^2.15.4"
+  },
+  "private": true
+}
