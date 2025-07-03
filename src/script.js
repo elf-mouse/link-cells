@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const menuButton = document.getElementById("menu-button");
   const sidebar = document.getElementById("sidebar");
   const scrimOverlay = document.getElementById("scrim-overlay");
+  const searchInput = document.getElementById("search-input"); // Get search input element
   let currentCategoryName = null;
   let awesomeContentData = [];
 
@@ -204,6 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         setActiveCategory(a);
         currentCategoryName = category.name;
+        searchInput.value = ''; // Clear search input on category change
         renderWebsites(currentCategoryName);
         // Close sidebar on mobile after selection
         if (window.innerWidth <= 1023) {
@@ -220,6 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (firstCategoryLink) {
       setActiveCategory(firstCategoryLink);
       currentCategoryName = firstCategoryLink.dataset.categoryName;
+      searchInput.value = ''; // Clear search input on initial category load
       renderWebsites(currentCategoryName);
     }
   }
@@ -229,7 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
     linkElement.classList.add("active");
   }
 
-  async function renderWebsites(categoryName) {
+  async function renderWebsites(categoryName, searchTerm = '') {
     if (!categoryName) {
       websiteContainer.innerHTML = "<p>请选择一个分类。</p>";
       return;
@@ -256,17 +259,26 @@ document.addEventListener("DOMContentLoaded", () => {
         return null;
     }
 
-    const itemsToDisplay = findItemsRecursively(awesomeContentData, categoryName);
+    let itemsToDisplay = findItemsRecursively(awesomeContentData, categoryName);
+
+    // Filter items based on search term
+    if (searchTerm) {
+      const lowerCaseSearchTerm = searchTerm.toLowerCase();
+      itemsToDisplay = itemsToDisplay.filter(item =>
+        item.name.toLowerCase().includes(lowerCaseSearchTerm)
+      );
+    }
 
     await new Promise(resolve => setTimeout(resolve, 300));
     websiteContainer.innerHTML = "";
 
     if (itemsToDisplay === null || itemsToDisplay.length === 0) {
-      websiteContainer.innerHTML = "<p>该分类下暂无内容。</p>";
+      websiteContainer.innerHTML = "<p>No content available for this category.</p>";
+      websiteContainer.classList.remove("grid-view"); // Remove grid-view if no items
       return;
     }
 
-    websiteContainer.className = "grid-view";
+    websiteContainer.classList.add("grid-view"); // Add grid-view if there are items
 
     itemsToDisplay.forEach(item => {
       websiteContainer.appendChild(createGridCard(item));
@@ -301,7 +313,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Conditionally build the card body
     let cardBodyHTML = '';
-    const description = item.brief || (item.sub_categories ? `包含 ${item.sub_categories.length} 个项目` : null);
+    const description = item.brief || (item.sub_categories ? `Contains ${item.sub_categories.length} items` : null);
     if (description) {
         cardBodyHTML = `
         <div class="website-card-body">
@@ -337,12 +349,18 @@ document.addEventListener("DOMContentLoaded", () => {
       card.querySelector('.website-card-content').addEventListener("click", (e) => {
         e.preventDefault();
         currentCategoryName = item.name;
+        searchInput.value = ''; // Clear search input when navigating into a sub-category
         renderWebsites(currentCategoryName);
       });
     }
 
     return card;
   }
+
+  // Add event listener for search input
+  searchInput.addEventListener("input", () => {
+    renderWebsites(currentCategoryName, searchInput.value);
+  });
 
   renderCategories();
 });
