@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const DATA_API = "https://awesome-data.balm.us.kg/awesome.json";
   const categoryTree = document.getElementById("category-tree");
   const websiteContainer = document.getElementById("website-container");
   const menuButton = document.getElementById("menu-button");
@@ -170,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function fetchAwesomeContent() {
     if (awesomeContentData.length === 0) {
       try {
-        const response = await fetch("https://awesome-data.hub.so.kg/awesome.json");
+        const response = await fetch(DATA_API);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         awesomeContentData = await response.json();
       } catch (error) {
