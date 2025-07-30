@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const DATA_API = "https://awesome-data.balm.us.kg/awesome.json";
+  const DATA_API = "https://get.balm.us.kg/datahub/awesome.json";
   const categoryTree = document.getElementById("category-tree");
   const websiteContainer = document.getElementById("website-container");
   const menuButton = document.getElementById("menu-button");
