@@ -3,7 +3,8 @@ const path = require('path');
 const { execSync } = require('child_process');
 
 // 1. Get site name from command line arguments
-const siteName = process.argv[2];
+const args = process.argv.slice(2);
+const siteName = args.includes('--') ? args[args.indexOf('--') + 1] : args[0];
 if (!siteName) {
   console.error('Error: Please provide a site name as an argument.');
   console.log('Usage: node build.js <site_name>');
