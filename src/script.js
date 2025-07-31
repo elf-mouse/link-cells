@@ -248,10 +248,10 @@ document.addEventListener("DOMContentLoaded", () => {
     function findItemsRecursively(items, name) {
         for (const item of items) {
             if (item.name === name) {
-                return item.sub_categories || [];
+                return item.subCategories || [];
             }
-            if (item.sub_categories) {
-                const result = findItemsRecursively(item.sub_categories, name);
+            if (item.subCategories) {
+                const result = findItemsRecursively(item.subCategories, name);
                 if (result !== null) {
                     return result;
                 }
@@ -314,7 +314,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Conditionally build the card body
     let cardBodyHTML = '';
-    const description = item.brief || (item.sub_categories ? `Contains ${item.sub_categories.length} items` : null);
+    const description = item.brief || (item.subCategories ? `Contains ${item.subCategories.length} items` : null);
     if (description) {
         cardBodyHTML = `
         <div class="website-card-body">
@@ -346,7 +346,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     card.innerHTML = cardContent + buttonGroup;
 
-    if (!item.repo && item.sub_categories) {
+    if (!item.repo && item.subCategories) {
       card.querySelector('.website-card-content').addEventListener("click", (e) => {
         e.preventDefault();
         currentCategoryName = item.name;
