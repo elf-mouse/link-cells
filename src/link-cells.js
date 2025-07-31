@@ -1,15 +1,14 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const DATA_API = "https://get.balm.us.kg/datahub/awesome.json";
+export function init(config) {
+  const DATA_API = `https://get.balm.us.kg/datahub/${config.dataSource}.json`;
   const categoryTree = document.getElementById("category-tree");
   const websiteContainer = document.getElementById("website-container");
   const menuButton = document.getElementById("menu-button");
   const sidebar = document.getElementById("sidebar");
   const scrimOverlay = document.getElementById("scrim-overlay");
-  const searchInput = document.getElementById("search-input"); // Get search input element
+  const searchInput = document.getElementById("search-input");
   let currentCategoryName = null;
   let awesomeContentData = [];
 
-  // Define Material 3 color palettes for rainbow colors
   const colorPalettes = [
     // Red
     {
@@ -139,7 +138,6 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   ];
 
-  // Function to apply a color palette to CSS variables
   function applyColorPalette(palette) {
     const root = document.documentElement;
     for (const [key, value] of Object.entries(palette)) {
@@ -147,7 +145,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Function to set a daily random color
   function setDailyRandomColor() {
     const today = new Date();
     const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
@@ -155,10 +152,8 @@ document.addEventListener("DOMContentLoaded", () => {
     applyColorPalette(colorPalettes[selectedIndex]);
   }
 
-  // Call this function at the start to set the daily theme
   setDailyRandomColor();
 
-  // --- Rest of your existing script.js code ---
   const toggleSidebar = () => {
     sidebar.classList.toggle("is-visible");
     scrimOverlay.classList.toggle("is-visible");
@@ -206,9 +201,8 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         setActiveCategory(a);
         currentCategoryName = category.name;
-        searchInput.value = ''; // Clear search input on category change
+        searchInput.value = '';
         renderWebsites(currentCategoryName);
-        // Close sidebar on mobile after selection
         if (window.innerWidth <= 1023) {
           toggleSidebar();
         }
@@ -223,7 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (firstCategoryLink) {
       setActiveCategory(firstCategoryLink);
       currentCategoryName = firstCategoryLink.dataset.categoryName;
-      searchInput.value = ''; // Clear search input on initial category load
+      searchInput.value = '';
       renderWebsites(currentCategoryName);
     }
   }
@@ -246,23 +240,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function findItemsRecursively(items, name) {
-        for (const item of items) {
-            if (item.name === name) {
-                return item.subCategories || [];
-            }
-            if (item.subCategories) {
-                const result = findItemsRecursively(item.subCategories, name);
-                if (result !== null) {
-                    return result;
-                }
-            }
+      for (const item of items) {
+        if (item.name === name) {
+          return item.subCategories || [];
         }
-        return null;
+        if (item.subCategories) {
+          const result = findItemsRecursively(item.subCategories, name);
+          if (result !== null) {
+            return result;
+          }
+        }
+      }
+      return null;
     }
 
     let itemsToDisplay = findItemsRecursively(awesomeContentData, categoryName);
 
-    // Filter items based on search term
     if (searchTerm) {
       const lowerCaseSearchTerm = searchTerm.toLowerCase();
       itemsToDisplay = itemsToDisplay.filter(item =>
@@ -275,11 +268,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (itemsToDisplay === null || itemsToDisplay.length === 0) {
       websiteContainer.innerHTML = "<p>No content available for this category.</p>";
-      websiteContainer.classList.remove("grid-view"); // Remove grid-view if no items
+      websiteContainer.classList.remove("grid-view");
       return;
     }
 
-    websiteContainer.classList.add("grid-view"); // Add grid-view if there are items
+    websiteContainer.classList.add("grid-view");
 
     itemsToDisplay.forEach(item => {
       websiteContainer.appendChild(createGridCard(item));
@@ -308,21 +301,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const logoSrc = item.logo
       ? item.logo
-      : item.repo
-      ? `https://www.google.com/s2/favicons?domain=${new URL(item.repo).hostname}`
-      : 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>';
+      : item.url
+        ? `https://icons.duckduckgo.com/ip2/${new URL(item.url).hostname}.ico`
+        : 'https://github.githubassets.com/favicons/favicon.svg'
 
-    // Conditionally build the card body
     let cardBodyHTML = '';
     const description = item.brief || (item.subCategories ? `Contains ${item.subCategories.length} items` : null);
     if (description) {
-        cardBodyHTML = `
+      cardBodyHTML = `
         <div class="website-card-body">
           <p>${description}</p>
         </div>`;
     }
 
-    // Card content remains clickable for navigation if it's a sub-category
     const cardContent = `
       <div class="website-card-content">
         <div class="website-card-header">
@@ -335,9 +326,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const buttonGroup = `
       <div class="card-button-group">
-        <a href="${item.repo || '#'}" target="_blank" class="card-button primary">
+        ${item.repo ? `<a href="${item.repo || '#'}" target="_blank" class="card-button primary">
           <span class="material-icons">code</span> GitHub
-        </a>
+        </a>` : ''}
         ${item.url ? `<a href="${item.url}" target="_blank" class="card-button secondary">
           <span class="material-icons">link</span> Visit
         </a>` : ''}
@@ -350,7 +341,7 @@ document.addEventListener("DOMContentLoaded", () => {
       card.querySelector('.website-card-content').addEventListener("click", (e) => {
         e.preventDefault();
         currentCategoryName = item.name;
-        searchInput.value = ''; // Clear search input when navigating into a sub-category
+        searchInput.value = '';
         renderWebsites(currentCategoryName);
       });
     }
@@ -358,10 +349,9 @@ document.addEventListener("DOMContentLoaded", () => {
     return card;
   }
 
-  // Add event listener for search input
   searchInput.addEventListener("input", () => {
     renderWebsites(currentCategoryName, searchInput.value);
   });
 
   renderCategories();
-});
+}

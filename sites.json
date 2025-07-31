@@ -1,0 +1,14 @@
+{
+  "awesome": {
+    "analyticsId": 13,
+    "siteName": "Awesome",
+    "description": "😎 Awesome lists about all kinds of interesting topics",
+    "keywords": "lists, awesome, unicorns, resources, awesome-list"
+  },
+  "othername": {
+    "analyticsId": 14,
+    "siteName": "Othername",
+    "description": "Another collection of things.",
+    "keywords": "other, collection, links, resources"
+  }
+}
